@@ -27,7 +27,7 @@ values += values[:1]  # レーダーチャートを閉じるために最初の�
 angles = [n / float(len(categories)) * 2 * pi for n in range(len(categories))]
 angles += angles[:1]
 
-fig, ax = plt.subplots(figsize=(0.5, 0.5), subplot_kw=dict(polar=True)) 
+fig, ax = plt.subplots(figsize=(1.2, 1.2), subplot_kw=dict(polar=True)) 
 plt.xticks(angles[:-1], categories, color='grey', size=2)
 ax.set_rlabel_position(0)
 ax.plot(angles, values, linewidth=1, linestyle='solid')
@@ -58,10 +58,10 @@ for _, geom in country_geom.items():
 col1, col2 = st.columns(2)
 
 with col1:
-    st_folium(m, width=400, height=600)
+    st_folium(m, width=1000, height=400)
 
 with col2:
-    st.pyplot(fig)
+    st.pyplot(fig,width=100, height=100)
 
 # 各国の特徴を記載
 st.write(f"### {selected_country}のコーヒーの特徴")
