@@ -4,6 +4,11 @@ from streamlit_folium import st_folium
 import geopandas as gpd  # ここでgeopandasをインポート
 import geodatasets
 
+world = gpd.read_file(geodatasets.get_path('naturalearth.land'))
+
+# 列名を表示
+st.write(world.columns)
+
 # Streamlitのページ設定
 st.set_page_config(page_title="コーヒーの世界地図", layout="wide")
 
