@@ -29,11 +29,11 @@ selected_country = st.selectbox("コーヒー生産国を選択してくださ�
 m = folium.Map(location=center, zoom_start=2)
 
 # 世界の国境データを読み込む
-world = gpd.read_file(geodatasets.get_path('naturalearth.land'))
+world = gpd.read_file(geodatasets.get_path('naturalearth.countries'))
 
 # 選択された国を強調表示
 country_name = countries[selected_country]
-country_geom = world[world.name == country_name].geometry
+country_geom = world[world['name'] == country_name].geometry
 
 # 選択された国の境界を描画
 for _, geom in country_geom.iteritems():
