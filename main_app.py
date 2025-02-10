@@ -63,7 +63,7 @@ with col1:
     st_folium(m, width=1000, height=400)
 
 with col2:
-    st.pyplot(fig,use_container_width=3)
+    st.pyplot(fig,use_container_width=1)
 
 # 各国の特徴を記載
 st.write(f"### {selected_country}のコーヒーの特徴")
