@@ -5,6 +5,7 @@ import geopandas as gpd
 import pandas as pd
 import matplotlib.pyplot as plt
 from countries import countries
+import japanize_matplotlib
 
 # Streamlitのページ設定
 st.set_page_config(page_title="コーヒーの世界地図", layout="wide")
@@ -18,11 +19,21 @@ country_features = countries[selected_country]['特徴']
 # 特徴をデータフレームに変換
 df = pd.DataFrame(list(country_features.items()), columns=['特徴', '値'])
 
-# 特徴をチャートで表示
+# レーダーチャートを作成
 st.write(f"{selected_country}のコーヒーの特徴")
-fig, ax = plt.subplots()
-df.plot(kind='bar', x='特徴', y='値', ax=ax, legend=False)
+categories = list(df['特徴'])
+values = df['値'].tolist()
+values += values[:1]  # レーダーチャートを閉じるために最初の値を追加
+
+angles = [n / float(len(categories)) * 2 * pi for n in range(len(categories))]
+angles += angles[:1]
+
+fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
+plt.xticks(angles[:-1], categories, color='grey', size=8)
+ax.plot(angles, values, linewidth=1, linestyle='solid')
+ax.fill(angles, values, 'b', alpha=0.1)
 st.pyplot(fig)
+
 
 # 世界の国境データを読み込む
 world = gpd.read_file("shp/ne_110m_admin_0_countries.shp")
@@ -31,15 +42,15 @@ world = gpd.read_file("shp/ne_110m_admin_0_countries.shp")
 country_name = countries[selected_country]['name']
 country_geom = world[world['NAME'] == country_name].geometry
 
-# 選択された国の中心座標を計算
-country_center = country_geom.centroid.iloc[0].coords[0]
+# 地図の中心を固定
+center = [0, 0]  # 世界地図の中心
 
 # Folium地図オブジェクトを作成
-m = folium.Map(location=country_center, zoom_start=5)
+m = folium.Map(location=center, zoom_start=2)
 
 # 選択された国の境界を描画
 for _, geom in country_geom.items():
     folium.GeoJson(geom, style_function=lambda x: {'fillColor': 'yellow', 'color': 'red'}).add_to(m)
 
 # Streamlitで地図を表示
-st_folium(m, width=700, height=500)
+st_folium(m, width=1000, height=500)
