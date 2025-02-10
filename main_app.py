@@ -34,7 +34,7 @@ world = gpd.read_file("shp/ne_110m_admin_0_countries.shp")
 st.write(world)
 # 選択された国を強調表示
 country_name = countries[selected_country]
-country_geom = world[world['NAME_LONG'] == country_name].geometry
+country_geom = world[world['NAME'] == country_name].geometry
 
 # 選択された国の境界を描画
 for _, geom in country_geom.iteritems():
