@@ -7,11 +7,6 @@ import geodatasets
 # Streamlitのページ設定
 st.set_page_config(page_title="コーヒーの世界地図", layout="wide")
 
-world = gpd.read_file(geodatasets.get_path('naturalearth.land'))
-
-# 列名を表示
-st.write(world.columns)
-
 # 地図の中心座標を設定
 center = [0, 0]  # 世界地図の中心
 
@@ -34,8 +29,9 @@ selected_country = st.selectbox("コーヒー生産国を選択してくださ�
 m = folium.Map(location=center, zoom_start=2)
 
 # 世界の国境データを読み込む
-world = gpd.read_file(geodatasets.get_path('naturalearth.land'))
+world = gpd.read_file("shp/ne_110m_admin_0_boundary_lines_land.shp")
 
+st.write(world.columns)
 # 選択された国を強調表示
 country_name = countries[selected_country]
 country_geom = world[world['name'] == country_name].geometry
