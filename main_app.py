@@ -31,7 +31,7 @@ m = folium.Map(location=center, zoom_start=2)
 # 世界の国境データを読み込む
 world = gpd.read_file("shp/ne_110m_admin_0_boundary_lines_land.shp")
 
-st.write(world.columns)
+st.write(world)
 # 選択された国を強調表示
 country_name = countries[selected_country]
 country_geom = world[world['NAME'] == country_name].geometry
