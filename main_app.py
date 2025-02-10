@@ -37,7 +37,7 @@ ax.fill(angles, values, 'b', alpha=0.1)
 # 軸の配置を調整
 ax.set_theta_offset(pi / 2)  # 軽さを上に
 ax.set_theta_direction(-1)  # 時計回りに
-fig.set_size_inches(18.5, 10.5) 
+fig.set_size_inches(5.0, 5.0) 
 
 # 世界の国境データを読み込む
 world = gpd.read_file("shp/ne_110m_admin_0_countries.shp")
@@ -60,7 +60,7 @@ for _, geom in country_geom.items():
 col1, col2 = st.columns([1, 1])
 
 with col1:
-    st_folium(m, width=350, height=350)
+    st_folium(m, width=1000, height=400)
 
 with col2:
     st.pyplot(fig)
