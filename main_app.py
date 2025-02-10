@@ -28,7 +28,7 @@ values += values[:1]  # レーダーチャートを閉じるために最初の�
 angles = [n / float(len(categories)) * 2 * pi for n in range(len(categories))]
 angles += angles[:1]
 
-fig, ax = plt.subplots(figsize=(1.2, 1.2), subplot_kw=dict(polar=True))  # サイズを小さく設定
+fig, ax = plt.subplots(figsize=(2, 2), subplot_kw=dict(polar=True))  # サイズを小さく設定
 plt.xticks(angles[:-1], categories, color='grey', size=8)
 ax.set_rlabel_position(0)
 ax.plot(angles, values, linewidth=1, linestyle='solid')
@@ -57,14 +57,13 @@ for _, geom in country_geom.items():
     folium.GeoJson(geom, style_function=lambda x: {'fillColor': 'yellow', 'color': 'red'}).add_to(m)
 
 # Streamlitで地図とレーダーチャートを並べて表示
-col1, col2 = st.columns([1, 1])
+col1, col2 = st.columns([2, 1])
 
 with col1:
     st_folium(m, width=1000, height=400)
 
 with col2:
-    st.pyplot(fig,use_container_width=1)
-
+    st.pyplot(fig)
 # 各国の特徴を記載
 st.write(f"### {selected_country}のコーヒーの特徴")
 st.write(f"酸味: {country_features['酸味']}")
