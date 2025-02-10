@@ -10,3 +10,4 @@ folium >= 0.0.0
 streamlit_folium >= 0.0.0
 geopandas >= 0.0.0
 shapely >= 0.0.0
+geodatasets >= 0.0.0
