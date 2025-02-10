@@ -4,8 +4,6 @@ from streamlit_folium import st_folium
 import geopandas as gpd
 import geodatasets
 
-print(geodatasets.data.flatten().keys())
-
 # Streamlitのページ設定
 st.set_page_config(page_title="コーヒーの世界地図", layout="wide")
 
@@ -31,7 +29,7 @@ selected_country = st.selectbox("コーヒー生産国を選択してくださ�
 m = folium.Map(location=center, zoom_start=2)
 
 # 世界の国境データを読み込む
-world = gpd.read_file(geodatasets.get_path('naturalearth.countries'))
+world = gpd.read_file(geodatasets.get_path('naturalearth.land'))
 
 # 選択された国を強調表示
 country_name = countries[selected_country]
