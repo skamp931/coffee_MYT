@@ -37,7 +37,7 @@ country_name = countries[selected_country]
 country_geom = world[world['NAME'] == country_name].geometry
 
 # 選択された国の境界を描画
-for _, geom in country_geom.iteritems():
+for _, geom in country_geom.items():
     folium.GeoJson(geom, style_function=lambda x: {'fillColor': 'yellow', 'color': 'red'}).add_to(m)
 
 # Streamlitで地図を表示
