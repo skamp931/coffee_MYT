@@ -4,13 +4,13 @@ from streamlit_folium import st_folium
 import geopandas as gpd  # ここでgeopandasをインポート
 import geodatasets
 
+# Streamlitのページ設定
+st.set_page_config(page_title="コーヒーの世界地図", layout="wide")
+
 world = gpd.read_file(geodatasets.get_path('naturalearth.land'))
 
 # 列名を表示
 st.write(world.columns)
-
-# Streamlitのページ設定
-st.set_page_config(page_title="コーヒーの世界地図", layout="wide")
 
 # 地図の中心座標を設定
 center = [0, 0]  # 世界地図の中心
