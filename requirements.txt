@@ -7,4 +7,6 @@ bs4 >= 0.0.0
 japanize-matplotlib >= 1.0.0
 setuptools >= 0.0.0
 folium >= 0.0.0
-streamlit_folium  >= 0.0.0
+streamlit_folium >= 0.0.0
+geopandas >= 0.0.0
+shapely >= 0.0.0
