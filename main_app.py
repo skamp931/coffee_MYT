@@ -28,8 +28,8 @@ values += values[:1]  # レーダーチャートを閉じるために最初の�
 angles = [n / float(len(categories)) * 2 * pi for n in range(len(categories))]
 angles += angles[:1]
 
-fig, ax = plt.subplots(figsize=(3, 3), subplot_kw=dict(polar=True)) 
-plt.xticks(angles[:-1], categories, color='grey', size=8)
+fig, ax = plt.subplots(figsize=(1, 1), subplot_kw=dict(polar=True)) 
+plt.xticks(angles[:-1], categories, color='grey', size=2)
 ax.set_rlabel_position(0)
 ax.plot(angles, values, linewidth=1, linestyle='solid')
 ax.fill(angles, values, 'b', alpha=0.1)
