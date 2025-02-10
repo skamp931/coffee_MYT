@@ -4,6 +4,8 @@ from streamlit_folium import st_folium
 import geopandas as gpd
 import geodatasets
 
+print(geodatasets.data.flatten().keys())
+
 # Streamlitのページ設定
 st.set_page_config(page_title="コーヒーの世界地図", layout="wide")
 
