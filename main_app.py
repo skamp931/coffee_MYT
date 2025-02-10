@@ -1,6 +1,7 @@
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
+import geopandas as gpd  # ここでgeopandasをインポート
 import geodatasets
 
 # Streamlitのページ設定
