@@ -4,6 +4,7 @@ from streamlit_folium import st_folium
 import geopandas as gpd
 import pandas as pd
 import matplotlib.pyplot as plt
+from math import pi
 from countries import countries
 import japanize_matplotlib
 
