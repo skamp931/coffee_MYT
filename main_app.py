@@ -28,7 +28,7 @@ values += values[:1]  # レーダーチャートを閉じるために最初の�
 angles = [n / float(len(categories)) * 2 * pi for n in range(len(categories))]
 angles += angles[:1]
 
-fig, ax = plt.subplots(figsize=(0.6, 0.6), subplot_kw=dict(polar=True))  # サイズを小さく設定
+fig, ax = plt.subplots(figsize=(1.2, 1.2), subplot_kw=dict(polar=True))  # サイズを小さく設定
 plt.xticks(angles[:-1], categories, color='grey', size=8)
 ax.set_rlabel_position(0)
 ax.plot(angles, values, linewidth=1, linestyle='solid')
@@ -50,7 +50,7 @@ country_geom = world[world['NAME'] == country_name].geometry
 center = [0, 0]  # 世界地図の中心
 
 # Folium地図オブジェクトを作成
-m = folium.Map(location=center, zoom_start=2)
+m = folium.Map(location=center, zoom_start=1)
 
 # 選択された国の境界を描画
 for _, geom in country_geom.items():
@@ -63,7 +63,7 @@ with col1:
     st_folium(m, width=1000, height=400)
 
 with col2:
-    st.pyplot(fig,use_container_width=5)
+    st.pyplot(fig,use_container_width=3)
 
 # 各国の特徴を記載
 st.write(f"### {selected_country}のコーヒーの特徴")
