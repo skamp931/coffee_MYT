@@ -5,6 +5,7 @@ import geopandas as gpd
 import pandas as pd
 import altair as alt
 from countries import countries
+from datetime import datetime
 
 # Streamlitのページ設定
 st.set_page_config(page_title="コーヒーの世界地図", layout="wide")
@@ -35,9 +36,9 @@ else:
     center = [country_latlon['lat'], country_latlon['lon']]
     zoom_level = countries[selected_country]['ズームレベル']  # 各国のズームレベルを取得
 
-   # 各国の特徴を記載
+    # 各国の特徴を記載
     st.write(f"### {selected_country}のコーヒーの特徴")
- 
+
     # Folium地図オブジェクトを作成
     m = folium.Map(location=center, zoom_start=zoom_level)
 
@@ -74,3 +75,38 @@ else:
         )
 
     st.write(f"・{country_description}")
+
+    # コーヒーノートの入力
+    st.write("### コーヒーノートを追加")
+    store_info = st.text_input("店名、住所など", "")
+    roast_level = st.selectbox("焙煎度合", ["浅煎り", "中浅煎り", "中煎り", "中深煎り", "深煎り"])
+    grind_type = st.selectbox("豆の挽き方", ["粗挽き", "中挽き", "細挽き"])
+    st.write("1: 弱い, 5: 強い")
+    aroma = st.slider("香り", 1, 5, 3)
+    acidity = st.slider("酸味", 1, 5, 3)
+    sweetness = st.slider("甘味", 1, 5, 3)
+    body = st.slider("コク", 1, 5, 3)
+    aftertaste = st.slider("後味", 1, 5, 3)
+    impressions = st.text_area("感想を書く", "")
+
+    # 日記を保存するボタン
+    if st.button("日記を保存"):
+        if store_info or impressions:
+            diary_df = load_diary()
+            new_entry = {
+                "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "store_info": store_info,
+                "coffee_info": f"焙煎度合: {roast_level}, 豆の挽き方: {grind_type}",
+                "taste_characteristics": f"香り: {aroma}, 酸味: {acidity}, 甘味: {sweetness}, コク: {body}, 後味: {aftertaste}",
+                "impressions": impressions
+            }
+            diary_df = diary_df.append(new_entry, ignore_index=True)
+            save_diary(diary_df)
+            st.success("日記が保存されました。")
+        else:
+            st.error("少なくとも1つの項目を入力してください。")
+
+    # 保存された日記を表示
+    st.write("保存された日記:")
+    diary_df = load_diary()
+    st.dataframe(diary_df)
