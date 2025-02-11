@@ -3,6 +3,7 @@ import folium
 from streamlit_folium import st_folium
 import geopandas as gpd
 import pandas as pd
+import os
 import altair as alt
 from countries import countries
 from datetime import datetime
