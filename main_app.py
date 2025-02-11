@@ -38,8 +38,10 @@ else:
     m = folium.Map(location=center, zoom_start=5)
 
     # 選択された国の境界を描画
-    for _, geom in country_geom.items():
-        folium.GeoJson(geom, style_function=lambda x: {'fillColor': 'yellow', 'color': 'red'}).add_to(m)
+    # 地図の中心を選択された国の緯度経度に設定
+    zoom_level = countries[selected_country]['ズームレベル']  # 各国のズームレベルを取得
+    # Folium地図オブジェクトを作成
+    m = folium.Map(location=center, zoom_start=zoom_level)
 
     # Streamlitで地図と横棒グラフを並べて表示
     col1, col2 = st.columns([2, 1])
