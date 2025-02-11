@@ -59,7 +59,10 @@ else:
         ).properties(
             width=300,
             height=200,
-            title='特徴'
+            title=alt.TitleParams(
+                text='特徴',
+                align='center'
+            )
         )
         st.altair_chart(bar_chart)
         # 各国の特徴を記載
