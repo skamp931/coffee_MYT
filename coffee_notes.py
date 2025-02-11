@@ -62,7 +62,7 @@ if st.button("日記を保存"):
             with open(photo_filename, "wb") as f:
                 f.write(photo.getbuffer())
         
-        new_entry = {
+        new_entry = pd.DataFrame([{
             "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "store_name": store_name,
             "store_address": store_address,
@@ -70,8 +70,9 @@ if st.button("日記を保存"):
             "taste_characteristics": f"香り: {aroma}, 酸味: {acidity}, 甘味: {sweetness}, コク: {body}, 後味: {aftertaste}",
             "impressions": impressions,
             "photo": photo_filename
-        }
-        diary_df = diary_df.append(new_entry, ignore_index=True)
+        }])
+        
+        diary_df = pd.concat([diary_df, new_entry], ignore_index=True)
         save_diary(diary_df)
         st.success("日記が保存されました。")
     else:
