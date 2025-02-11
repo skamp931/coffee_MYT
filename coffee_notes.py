@@ -23,35 +23,6 @@ def load_diary():
 def save_diary(diary_df):
     diary_df.to_csv(DIARY_FILE, index=False)
 
-# ページのタイトル
-st.title("コーヒーノート")
-
-# お店の情報
-st.write("お店の情報を入力してください。")
-store_name = st.text_input("店名", "")
-store_address = st.text_input("住所", "")
-
-# コーヒーの情報
-st.write("コーヒーの情報を入力してください。")
-roast_level = st.selectbox("焙煎度合", ["浅煎り", "中浅煎り", "中煎り", "中深煎り", "深煎り"])
-grind_type = st.selectbox("豆の挽き方", ["粗挽き", "中挽き", "細挽き"])
-
-# 味の特徴
-st.write("味の特徴を入力してください。")
-st.write("1: 弱い, 5: 強い")
-aroma = st.slider("香り", 1, 5, 3)
-acidity = st.slider("酸味", 1, 5, 3)
-sweetness = st.slider("甘味", 1, 5, 3)
-body = st.slider("コク", 1, 5, 3)
-aftertaste = st.slider("後味", 1, 5, 3)
-
-# 感想
-st.write("コーヒーに関する感想を自由に書いてください。")
-impressions = st.text_area("感想を書く", "")
-
-# 写真のアップロード
-photo = st.file_uploader("写真をアップロード", type=["jpg", "jpeg", "png"])
-
 # 日記を保存するボタン
 if st.button("日記を保存"):
     if store_name or impressions:
