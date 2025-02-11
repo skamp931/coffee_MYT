@@ -3,6 +3,7 @@ import folium
 from streamlit_folium import st_folium
 import geopandas as gpd
 import pandas as pd
+import altair as alt
 from countries import countries
 
 st.title("コーヒー生産国")
