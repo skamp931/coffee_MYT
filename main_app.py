@@ -6,6 +6,7 @@ import pandas as pd
 import altair as alt
 from countries import countries
 from datetime import datetime
+from coffee_diary import load_diary
 
 # Streamlitのページ設定
 st.set_page_config(page_title="コーヒーの世界地図", layout="wide")
