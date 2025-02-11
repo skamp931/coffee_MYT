@@ -4,7 +4,6 @@ from streamlit_folium import st_folium
 import geopandas as gpd
 import pandas as pd
 import matplotlib.pyplot as plt
-from math import pi
 from countries import countries
 
 # Streamlitのページ設定
@@ -20,25 +19,6 @@ country_features = countries[selected_country]['特徴']
 # 特徴をデータフレームに変換
 df = pd.DataFrame(list(country_features.items()), columns=['特徴', '値'])
 
-# レーダーチャートを作成
-categories = ['酸味', '苦み', '軽さ', 'コク']
-values = [country_features[cat] for cat in categories]
-values += values[:1]  # レーダーチャートを閉じるために最初の値を追加
-
-angles = [n / float(len(categories)) * 2 * pi for n in range(len(categories))]
-angles += angles[:1]
-
-fig, ax = plt.subplots(figsize=(1, 1), subplot_kw=dict(polar=True)) 
-plt.xticks(angles[:-1], categories, color='grey', size=2)
-ax.set_rlabel_position(0)
-ax.plot(angles, values, linewidth=1, linestyle='solid')
-ax.fill(angles, values, 'b', alpha=0.1)
-
-# 軸の配置を調整
-ax.set_theta_offset(pi / 2)  # 軽さを上に
-ax.set_theta_direction(-1)  # 時計回りに
-fig.set_size_inches(1.0, 1.0) 
-
 # 世界の国境データを読み込む
 world = gpd.read_file("shp/ne_110m_admin_0_countries.shp")
 
@@ -50,20 +30,21 @@ country_geom = world[world['NAME'] == country_name].geometry
 center = [0, 0]  # 世界地図の中心
 
 # Folium地図オブジェクトを作成
-m = folium.Map(location=center, zoom_start=1)
+m = folium.Map(location=center, zoom_start=2)
 
 # 選択された国の境界を描画
 for _, geom in country_geom.items():
     folium.GeoJson(geom, style_function=lambda x: {'fillColor': 'yellow', 'color': 'red'}).add_to(m)
 
-# Streamlitで地図とレーダーチャートを並べて表示
-col1, col2 = st.columns([2, 1])
+# Streamlitで地図と横棒グラフを並べて表示
+col1, col2 = st.columns([1, 1])
 
 with col1:
-    st_folium(m, width=1000, height=400)
+    st_folium(m, width=350, height=350)
 
 with col2:
-    st.pyplot(fig)
+    st.bar_chart(df.set_index('特徴'))
+
 # 各国の特徴を記載
 st.write(f"### {selected_country}のコーヒーの特徴")
 st.write(f"酸味: {country_features['酸味']}")
