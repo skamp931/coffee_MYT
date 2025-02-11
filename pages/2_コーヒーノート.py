@@ -7,7 +7,7 @@ from countries import countries
 
 st.title("コーヒーノート")
 
-st.write("注意：作成中で長期保存できません。後ほど、googleに保存できるようにしようと思います。¥n")
+st.write("注意：作成中で長期保存できません。後ほど、googleに保存できるようにしようと思います。<br>")
 
 # ユーザー名を入力
 user_name = st.text_input("ユーザー名", "")
