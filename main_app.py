@@ -31,16 +31,16 @@ else:
     country_name = countries[selected_country]['name']
     country_geom = world[world['NAME'] == country_name].geometry
 
-    # 選択された国の境界を描画
-    for _, geom in country_geom.items():
-        folium.GeoJson(geom, style_function=lambda x: {'fillColor': 'yellow', 'color': 'red'}).add_to(m)
-
     # 地図の中心を選択された国の緯度経度に設定
     center = [country_latlon['lat'], country_latlon['lon']]
 
     zoom_level = countries[selected_country]['ズームレベル']  # 各国のズームレベルを取得
     # Folium地図オブジェクトを作成
     m = folium.Map(location=center, zoom_start=zoom_level)
+
+    # 選択された国の境界を描画
+    for _, geom in country_geom.items():
+        folium.GeoJson(geom, style_function=lambda x: {'fillColor': 'yellow', 'color': 'red'}).add_to(m)
 
     # Streamlitで地図と横棒グラフを並べて表示
     col1, col2 = st.columns([2, 1])
