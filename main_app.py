@@ -17,8 +17,8 @@ st.write("さらに、世界中のコーヒー生産国の情報を地図やグ�
 # 写真の追加
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.image("page_photo/coffee1.jpg", caption="香り高いコーヒー", use_column_width=True)
+    st.image("page_photo/coffee1.jpeg", caption="香り高いコーヒー", use_column_width=True)
 with col2:
-    st.image("page_photo/coffee2.jpg", caption="こだわりの焙煎", use_column_width=True)
+    st.image("page_photo/coffee2.jpeg", caption="こだわりの焙煎", use_column_width=True)
 with col3:
-    st.image("page_photo/coffee3.jpg", caption="至福の一杯", use_column_width=True)
+    st.image("page_photo/coffee3.jpeg", caption="至福の一杯", use_column_width=True)
