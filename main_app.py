@@ -33,13 +33,11 @@ else:
 
     # 地図の中心を選択された国の緯度経度に設定
     center = [country_latlon['lat'], country_latlon['lon']]
-    # 各国のズームレベルを取得
-    zoom_level = countries[selected_country]['ズームレベル']
+    zoom_level = countries[selected_country]['ズームレベル']  # 各国のズームレベルを取得
 
-    # 題目を記載
+   # 各国の特徴を記載
     st.write(f"### {selected_country}のコーヒーの特徴")
-
-
+ 
     # Folium地図オブジェクトを作成
     m = folium.Map(location=center, zoom_start=zoom_level)
 
@@ -56,19 +54,20 @@ else:
     with col2:
         # Altairを使用して水平バーを作成
         bar_chart = alt.Chart(df).mark_bar().encode(
-            x=alt.X('値:Q', scale=alt.Scale(domain=[0, 5]), axis=alt.Axis(tickMinStep=1)),
-            y=alt.Y('特徴:N', sort='-x')
+            x=alt.X('値:Q', scale=alt.Scale(domain=[0, 5]), axis=alt.Axis(tickMinStep=1), title=None),
+            y=alt.Y('特徴:N', sort='-x', title=None)
         ).properties(
             width=300,
-            height=200
+            height=200,
+            title='特徴'
         )
         st.altair_chart(bar_chart)
+        # 各国の特徴を記載
+        st.write(
+            f"酸味: {'**' + str(country_features['酸味']) + '**' if country_features['酸味'] >= 3 else country_features['酸味']}, "
+            f"苦み: {'**' + str(country_features['苦み']) + '**' if country_features['苦み'] >= 3 else country_features['苦み']}, "
+            f"軽さ: {'**' + str(country_features['軽さ']) + '**' if country_features['軽さ'] >= 3 else country_features['軽さ']}, "
+            f"コク: {'**' + str(country_features['コク']) + '**' if country_features['コク'] >= 3 else country_features['コク']}"
+        )
 
-    # 各国の特徴を記載
-    st.write(
-        f"酸味: {'**' + str(country_features['酸味']) + '**' if country_features['酸味'] >= 3 else country_features['酸味']}, "
-        f"苦み: {'**' + str(country_features['苦み']) + '**' if country_features['苦み'] >= 3 else country_features['苦み']}, "
-        f"軽さ: {'**' + str(country_features['軽さ']) + '**' if country_features['軽さ'] >= 3 else country_features['軽さ']}, "
-        f"コク: {'**' + str(country_features['コク']) + '**' if country_features['コク'] >= 3 else country_features['コク']}"
-    )
     st.write(f"・{country_description}")
