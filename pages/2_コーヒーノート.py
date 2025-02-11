@@ -64,12 +64,10 @@ if st.button("日記を保存"):
 
 # 保存された日記を表示
 st.write("保存された日記:")
-diary_df = load_diary()
 
 # ユーザー名でフィルタリング
 filter_user_name = st.text_input("表示するユーザー名を入力", "")
 if filter_user_name:
+    diary_df = load_diary()
     filtered_diary_df = diary_df[diary_df['user_name'] == filter_user_name]
     st.dataframe(filtered_diary_df)
-else:
-    st.dataframe(diary_df)
