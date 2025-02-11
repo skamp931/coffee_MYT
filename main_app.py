@@ -6,10 +6,17 @@ import pandas as pd
 import altair as alt
 from countries import countries
 from datetime import datetime
-from coffee_notes import load_diary
+from coffee_notes import load_diary, save_diary
 
 # Streamlitのページ設定
 st.set_page_config(page_title="コーヒーの世界地図", layout="wide")
+
+# サイドバーにコーヒーノート追加ボタンを追加
+if 'show_coffee_notes' not in st.session_state:
+    st.session_state['show_coffee_notes'] = False
+
+if st.sidebar.button("コーヒーノートを追加"):
+    st.session_state['show_coffee_notes'] = not st.session_state['show_coffee_notes']
 
 # レイアウト調整
 st.sidebar.title("コーヒー生産国の選択")
@@ -77,37 +84,49 @@ else:
 
     st.write(f"・{country_description}")
 
-    # コーヒーノートの入力
-    st.write("### コーヒーノートを追加")
-    store_info = st.text_input("店名、住所など", "")
-    roast_level = st.selectbox("焙煎度合", ["浅煎り", "中浅煎り", "中煎り", "中深煎り", "深煎り"])
-    grind_type = st.selectbox("豆の挽き方", ["粗挽き", "中挽き", "細挽き"])
-    st.write("1: 弱い, 5: 強い")
-    aroma = st.slider("香り", 1, 5, 3)
-    acidity = st.slider("酸味", 1, 5, 3)
-    sweetness = st.slider("甘味", 1, 5, 3)
-    body = st.slider("コク", 1, 5, 3)
-    aftertaste = st.slider("後味", 1, 5, 3)
-    impressions = st.text_area("感想を書く", "")
+    # コーヒーノートの入力を表示するかどうかを確認
+    if st.session_state['show_coffee_notes']:
+        st.write("### コーヒーノートを追加")
+        store_name = st.text_input("店名", "")
+        store_address = st.text_input("住所", "")
+        roast_level = st.selectbox("焙煎度合", ["浅煎り", "中浅煎り", "中煎り", "中深煎り", "深煎り"])
+        grind_type = st.selectbox("豆の挽き方", ["粗挽き", "中挽き", "細挽き"])
+        st.write("1: 弱い, 5: 強い")
+        aroma = st.slider("香り", 1, 5, 3)
+        acidity = st.slider("酸味", 1, 5, 3)
+        sweetness = st.slider("甘味", 1, 5, 3)
+        body = st.slider("コク", 1, 5, 3)
+        aftertaste = st.slider("後味", 1, 5, 3)
+        impressions = st.text_area("感想を書く", "")
+        photo = st.file_uploader("写真をアップロード", type=["jpg", "jpeg", "png"])
 
-    # 日記を保存するボタン
-    if st.button("日記を保存"):
-        if store_info or impressions:
-            diary_df = load_diary()
-            new_entry = {
-                "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "store_info": store_info,
-                "coffee_info": f"焙煎度合: {roast_level}, 豆の挽き方: {grind_type}",
-                "taste_characteristics": f"香り: {aroma}, 酸味: {acidity}, 甘味: {sweetness}, コク: {body}, 後味: {aftertaste}",
-                "impressions": impressions
-            }
-            diary_df = diary_df.append(new_entry, ignore_index=True)
-            save_diary(diary_df)
-            st.success("日記が保存されました。")
-        else:
-            st.error("少なくとも1つの項目を入力してください。")
+        # 日記を保存するボタン
+        if st.button("日記を保存"):
+            if store_name or impressions:
+                diary_df = load_diary()
+                photo_filename = None
+                if photo:
+                    photo_filename = os.path.join("photos", f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{photo.name}")
+                    with open(photo_filename, "wb") as f:
+                        f.write(photo.getbuffer())
+                
+                new_entry = pd.DataFrame([{
+                    "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "store_name": store_name,
+                    "store_address": store_address,
+                    "coffee_info": f"焙煎度合: {roast_level}, 豆の挽き方: {grind_type}",
+                    "taste_characteristics": f"香り: {aroma}, 酸味: {acidity}, 甘味: {sweetness}, コク: {body}, 後味: {aftertaste}",
+                    "impressions": impressions,
+                    "photo": photo_filename
+                }])
+                
+                diary_df = pd.concat([diary_df, new_entry], ignore_index=True)
+                save_diary(diary_df)
+                st.success("日記が保存されました。")
+            else:
+                st.error("少なくとも1つの項目を入力してください。")
 
-    # 保存された日記を表示
-    st.write("保存された日記:")
-    diary_df = load_diary()
-    st.dataframe(diary_df)
+        # 保存された日記を表示
+        st.write("保存された日記:")
+        diary_df = load_diary()
+        st.dataframe(diary_df)
